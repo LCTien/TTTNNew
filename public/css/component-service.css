@@ -1,0 +1,60 @@
+.container-component-1{
+position: absolute;
+width: 370px;
+height: 100%;
+left: 0;
+top: 0;
+/* White */
+background: white;
+/* Shadowbox */
+box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+border-radius: 12px;
+}
+.container-component-1-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: auto;
+    margin: 12px 16px;
+}
+.container-component-1-content span{
+    position: relative;
+}
+.container-component-1-content span{
+    height: 100%;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #282739;
+}
+.container-component-1-content p{
+    flex: 2;
+    overflow-wrap: break-word;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 125px;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #535261;
+}
+.container-component-2{
+    padding: 12px 16px;
+    position: absolute;
+    width: 718px;
+    height: 100%;
+    left: 400px;
+    /* White */
+    background: #FFFFFF;
+    /* Shadowbox */
+    
+    box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+    border-radius: 12px;
+    }
