@@ -1,3 +1,31 @@
+.modal-update-image
+{
+    display: none;
+    position: absolute;
+    width:  280px;
+    height: 66px;
+    z-index: 5000;
+    background: #FFF2E7;
+    top: 470px;
+    left: 250px;
+    padding: 6px 16px;
+    border-radius: 12px;
+}
+.modal-update-image input,.modal-update-image button{
+    position: relative;
+}
+.modal-update-image button
+{
+    margin-top: 5px;
+    border: 0.5px solid #FF9138;
+    width: 80px;
+    height: 22px;
+}
+.modal-update-image button:hover
+{
+   background: #FF9138;
+   color: white;
+}
 .modal-form{
     display: none;
     position: absolute;
@@ -7,8 +35,7 @@
     justify-content: center;
     align-items: center;
     top: 0;
-    z-index: 5000;
-    
+    z-index: 5000;  
 }
 .modal-give{
     display: none;

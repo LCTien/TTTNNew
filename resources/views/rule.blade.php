@@ -38,7 +38,7 @@
                  <td>{{ $items->name }}</td>
                  <td>{{ $items->tong }}</td>
                  <td>{{ $items->description }}</td>
-                 <td><a href="{{ route('rule.update') }}">Cập nhật</a></td>
+                 <td><a href="{{ route('rule.update',['id' => $items->id]) }}">Cập nhật</a></td>
                </tr>
                @endforeach
             </tbody>

@@ -5,11 +5,11 @@
 <p class="component-title strong">Thêm vai trò</p>
 </div>
 <div class="container bg-white h-400">
-    <form action="{{ route('add.equipment') }}" class="form-group" method="POST">
+    <form action="{{ route('add.role') }}" class="form-group" method="POST">
         @csrf
         <div class="form-control2">
-            <label for="code">Tên vai trò: <span class="fire">*</span></label>
-            <input type="text" name="code" placeholder="Nhập tên vai trò">
+            <label for="name">Tên vai trò: <span class="fire">*</span></label>
+            <input type="text" name="name" placeholder="Nhập tên vai trò"  @if(isset($errName))style="border: 0.5px solid red" @endif>
         </div>
         <div class="list-function">
             <label for="code">Phân quyền chức năng<span class="fire relative">*</span></label>
@@ -39,15 +39,15 @@
             </div>
         </div>
         <div class="form-control2">
-            <label for="code">Mô tả:</label>
-           <input type="text" style="height: 132px" placeholder="Mô tả vai trò">
+            <label for="description">Mô tả:</label>
+           <input name="description" type="text" style="height: 132px" placeholder="Mô tả vai trò">
         </div>
         <div class="form-control2">
             <p><span class="fire relative">*</span>là trường thông tin bắt buộc</p>
         </div>
             <div class="form-buttons">
                 <a class="denie-button" href="{{ route('equipment') }}">Hủy bỏ</a>
-                <button type="submit" class="continue-button">Thêm thiết bị</button>
+                <button type="submit" class="continue-button">Thêm vai trò</button>
             </div>
             <input type="hidden" name="service" value="" id="service">
         </form>

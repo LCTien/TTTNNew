@@ -239,9 +239,20 @@ class AccountController extends Controller
      * @param  \App\Http\Requests\StoreAccountRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAccountRequest $request)
+    public function uploadImage(Request $request)
     {
-        //
+            if(!$request->hasFile('file'))
+            {
+                return 'Hãy chọn file để upload';
+            }
+            else
+            {
+                $img = $request->file('file');
+                $imgPath = $img->move('assets/img', $img->getClientOriginalName());
+                DB::update('update accounts set avatar = ? where id = ?', [$img->getClientOriginalName(),Session::get('UserId')]);
+                Session::put('Avatar',$img->getClientOriginalName());
+                return redirect()->route('admin.info',['id' => Session::get('UserId')]);
+            }
     }
 
     /**

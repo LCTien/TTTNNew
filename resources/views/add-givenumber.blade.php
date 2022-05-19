@@ -30,6 +30,7 @@
         
         $(document).ready(function(){
             input = document.getElementById('service');
+            input.value = $(".dropdown p").text();
         let flag = 0;
         $(".dropdown").click(function(){
             $(".givenumber-dropbox").toggleClass("block");

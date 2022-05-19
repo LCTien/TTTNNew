@@ -5,7 +5,7 @@
     <div class="content">
         <div class="profile-1">
             <img src="/assets/img/{{ $user->avatar }}" alt="avatar" id="avatar">
-            <a class="profile-1 set-avatar" onclick="openFile()"><i class="fas fa-camera"></i></a>
+            <a class="profile-1 set-avatar" id="upload"><i class="fas fa-camera"></i></a>
             <h1>{{ $user->fullname }}</h1>
         </div>
         <div class="profile-2">
@@ -30,27 +30,30 @@
                 <p>{{ $user->name }}</p>
         </div>
     </div>
+</div>
+<div class="modal-update-image" id="form">
+    <form action="{{ route('uploadImage') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="file"><br>
+        <button type="submit">Thay đổi</button>
+    </form>
+</div>
     <script>
-        async function openFile(){
-           let [filehandel] = await window.showOpenFilePicker({
-               types: [
-                   {
-                       description: 'Image',
-                       accept:{
-                           'images/*' : ['.jpg','.png','.jpeg','.gif']
-                       }
-                   },
-               ],
-               excludeAcceptAllOption: true,
-               multiple: false
-           });
-           var fileData = await filehandel.getFile();
-           var http = new XMLHttpRequest();
-           var data = new FormData();
-           data.append('filename', fileData.name);
-           data.append('myfile', fileData);
-           http.open('get','http://127.0.0.1:8000/uploadImg',true);
-           http.send(data);
-        }
+       $(document).ready(function(){
+           let flag = 1;
+        $("#upload").click(function () {
+            if(flag == 1)
+            {
+                $("#form").css("display","block");
+                flag++;
+            }
+            else
+            {
+                $("#form").css("display","none");
+                flag = 1;
+            }
+            
+        });
+       })
     </script>
 @endsection

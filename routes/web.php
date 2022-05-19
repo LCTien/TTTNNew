@@ -40,9 +40,13 @@ Route::post('welcome',[AccountController::class,'login'])->name('welcome');
 
 Route::get('/admin-info/{id}', [AccountController::class,'index'])->name('admin.info');
 
+Route::post('/uploadImage', [AccountController::class,'uploadImage'])->name('uploadImage');
+
 Route::get('/uploadImg', [AccountController::class,'uploadImg']);
 
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+
+Route::get('/getData',[DashboardController::class,'select']);
 
 Route::get('/equipment', [EquipmentController::class,'index'])->name('equipment');
 
@@ -102,13 +106,13 @@ Route::get('/download',[GivenumberController::class,'download'])->name('download
 
 Route::get('/manage/rule',[RoleController::class,'index'])->name('rule.management');
 
-Route::get('/manage/rule/add',function(){
-    return view('add-rule',['isInstall'=> true,'isRule' => true]);
-})->name('rule.add');
+Route::get('/manage/rule/add',[RoleController::class,'creating'])->name('rule.add');
 
-Route::get('/manage/rule/update',function(){
-    return view('update-rule',['isInstall'=> true,'isRule' => true]);
-})->name('rule.update');
+Route::get('/manage/rule/update/{id}',[RoleController::class,'updating'])->name('rule.update');
+
+Route::post('/updateRole',[RoleController::class,'update'])->name('update.role');
+
+Route::post('/createRole',[RoleController::class,'create'])->name('add.role');
 
 //account
 Route::get('/manage/account',[AccountController::class,'management'])->name('account');
