@@ -23,7 +23,13 @@
         </div>
         <div class="form-control2 padding-top15">
             <h3>Trạng thái</h3>
-            <p style="padding-left: 50px"><i class="dot dot-fire" style="left: 42px"></i>Đang chờ</p>
+            @if($serial[0]->status == -1)
+            <p style="padding-left: 50px"><i class="dot dot-fire" style="left: 42px"></i>Đã bỏ qua</p>
+                 @elseif ($serial[0]->status == 0)
+                 <p style="padding-left: 50px"><i class="dot dot-water" style="left: 42px"></i>Đang chờ</p>
+                 @elseif ($serial[0]->status == 1)
+                 <p style="padding-left: 50px"><i class="dot dot-jungle" style="left: 42px"></i>Đã sử dụng</p>
+                 @endif
         </div>
         <div class="form-control2 padding-top15">
             <h3>Số thứ tự</h3>

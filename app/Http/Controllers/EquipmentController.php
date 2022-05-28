@@ -19,30 +19,33 @@ class EquipmentController extends Controller
     {
         $page = 1;
         $itemSet = 0;
+        $all = DB::table('equipments')->get();
         if(isset($_GET['page']))
         {
             $page = $_GET['page'];
             $itemSet = 6 * ($page - 1); 
         }
-            $eq = DB::table('equipments')->limit(6)->offset($itemSet)->get();
+            $eq = DB::table('equipments')->limit(6)->offset($itemSet)->orderByDESC('created_at')->get();
         
-        $quantity_page = ceil(count($eq) / 6);
+        $quantity_page = ceil(count($all) / 6);
         return view('equipment',['page' => $page,'maxPage' => $quantity_page,'isEquipment' => true,'listEQuip' => $eq]);
     }
     public function search(Request $request){
         $output ='';
         if($request->action == "0" && $request->connect == "0"){
-            $eq = DB::table('equipments')->where('name','LIKE','%'.$request->keyword.'%')->get();
+            $eq = DB::table('equipments')->limit(6)->where('name','LIKE','%'.$request->keyword.'%')->get();
         }
         else if($request->action == "0")
-            $eq = DB::table('equipments')->where('name','LIKE','%'.$request->keyword.'%')->where('status_connect','=',$request->connect)->get();
+            $eq = DB::table('equipments')->limit(6)->where('name','LIKE','%'.$request->keyword.'%')
+            ->where('status_connect','=',$request->connect)->get();
         else if($request->connect == "0")
-            $eq = DB::table('equipments')->where('name','LIKE','%'.$request->keyword.'%')->where('status_active','=',$request->action)->get();
+            $eq = DB::table('equipments')->limit(6)->where('name','LIKE','%'.$request->keyword.'%')
+            ->where('status_active','=',$request->action)->get();
         else 
             $eq = DB::table('equipments')
             ->where('name','LIKE','%'.$request->keyword.'%')
             ->where('status_active','=',$request->action)
-            ->where('status_connect','=',$request->connect)->get(); 
+            ->where('status_connect','=',$request->connect)->limit(6)->get(); 
         if(count($eq)>0){foreach($eq as $items)
             {
                 
@@ -83,7 +86,10 @@ class EquipmentController extends Controller
      */
     public function create(Request $request)
     {
-        $create = DB::insert('insert into equipments (Code, name,IP, service_use, login_name, password, equipment_type_id, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$request->code,$request->name,$request->ip_address,$request->service,$request->username,$request->password,$request->type,Carbon::now('Asia/Ho_Chi_Minh')]);
+        DB::insert('insert into equipments (Code, name,IP, service_use, login_name, password, equipment_type_id, created_at)
+         values (?, ?, ?, ?, ?, ?, ?, ?)',
+          [$request->code,$request->name,$request->ip_address,$request->service,$request->username,$request->password,$request->type
+          ,Carbon::now('Asia/Ho_Chi_Minh')]);
         return redirect()->route('equipment',['isEquipment' => true]);
     }
 
@@ -113,6 +119,7 @@ class EquipmentController extends Controller
         ->get();
         return view('detail-equipment',['isEquipment' => true,'detail'=>$equipment]);
     }
+
     public function updating($id)
     {
         $equipment = DB::table('equipments')
@@ -132,7 +139,11 @@ class EquipmentController extends Controller
      */
     public function edit(Request $request)
     {
-        $equipment = DB::update('update equipments set Code = ?, name = ?, IP = ?, service_use = ?, login_name = ?, password = ?, equipment_type_id = ?, updated_at = ?  where Code = ?', [$request->code,$request->name,$request->ip_address,$request->service,$request->username,$request->password,$request->type,Carbon::now('Asia/Ho_Chi_Minh'),$request->oldCode]);
+        $equipment = DB::update('update equipments
+         set Code = ?, name = ?, IP = ?, service_use = ?, login_name = ?, password = ?, equipment_type_id = ?, updated_at = ?  
+         where Code = ?', 
+        [$request->code,$request->name,$request->ip_address,$request->service,$request->username,
+        $request->password,$request->type,Carbon::now('Asia/Ho_Chi_Minh'),$request->oldCode]);
         return redirect()->route('equipment');
     }
 

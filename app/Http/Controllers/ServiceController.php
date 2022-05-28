@@ -77,7 +77,8 @@ class ServiceController extends Controller
         {
             $reset = 1;
         }
-        DB::insert('insert into services (Code, name, description, auto_incre, prefix, surfix, reset_everyday, created_at, status_active) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now(),1]);
+        DB::insert('insert into services (Code, name, description, auto_incre, prefix, surfix, reset_everyday, created_at, status_active) 
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now(),1]);
         return redirect()->route('service');
     }
     public function search(Request $request)
@@ -220,7 +221,9 @@ class ServiceController extends Controller
         {
             $reset = 1;
         }
-        DB::update('update services set Code = ?, name = ?, description = ?, auto_incre = ?, prefix = ?, surfix = ?, reset_everyday = ?, updated_at = ? where Code = ?', [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now(),$request->oldCode]);
+        DB::update('update services set Code = ?, name = ?, description = ?, auto_incre = ?,
+         prefix = ?, surfix = ?, reset_everyday = ?, updated_at = ? where Code = ?',
+          [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now(),$request->oldCode]);
         return redirect()->route('service');
     }
     /**
@@ -248,7 +251,8 @@ class ServiceController extends Controller
         ->where('service_id','=',$id)
         ->get();
         $quantity_page = ceil(count($allNumber) / 6);
-        return view('detail-service',['page' => $page,'maxPage' => $quantity_page,'id'=> $id,'isService' => true,'service'=> $service,'listNumber'=>$listNumber]);
+        return view('detail-service',['page' => $page,'maxPage' => $quantity_page,
+        'id'=> $id,'isService' => true,'service'=> $service,'listNumber'=>$listNumber]);
     }
 
     /**

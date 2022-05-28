@@ -42,6 +42,7 @@ class GivenumberController extends Controller
         ->select('givenumbers.*','services.name as service_name','equipments.name as equipment_name')
         ->limit(6)
         ->offset($itemSet)
+        ->orderByDESC('created_at')
         ->get();
         $quantity_page = ceil(count($fullserial) / 6);
         return view('givenumber',['page' => $page,'maxPage' => $quantity_page,'isGivenumber'=> true,'serial'=> $serial,'services'=> $service,'equip'=>$equip]);
@@ -312,7 +313,9 @@ class GivenumberController extends Controller
     }
     public function create(Request $request)
     {
-        $equipment = DB::select('select equipments.Code as code from equipments where equipments.service_use like "%'.$request->service.'%" and not EXISTS (select equipment_id from givenumbers WHERE equipments.Code = givenumbers.equipment_id )');
+        $equipment = DB::select('select equipments.Code as code from equipments
+         where equipments.service_use like "%'.$request->service.'%" 
+         and not EXISTS (select equipment_id from givenumbers WHERE equipments.Code = givenumbers.equipment_id )');
         if(count($equipment)==0)
         {
             $equipment = DB::table('equipments')
@@ -346,7 +349,9 @@ class GivenumberController extends Controller
         }
         $time = Carbon::now('Asia/Ho_Chi_Minh');
         $limit_time =Carbon::now('Asia/Ho_Chi_Minh')->addHours(5);
-        $insert =  DB::insert('insert into givenumbers (serial,name,phonenumber,email,service_id,equipment_id,limit_time,created_at,status) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$STT,$request->name,$request->phonenumber,$request->email,$service[0]->Code,$equipment[0]->code,$limit_time,$time,1]);
+        $insert =  DB::insert('insert into givenumbers (serial,name,phonenumber,email,service_id,equipment_id,limit_time,created_at,status)
+         values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [$STT,$request->name,$request->phonenumber,$request->email,$service[0]->Code,$equipment[0]->code,$limit_time,$time,0]);
         $output = ' <div class="modal-give-content">
                     <span class="close">x</span>
                     <div class="modal-give-content-child1">
@@ -362,6 +367,7 @@ class GivenumberController extends Controller
 
         return response()->json($output);
     }
+
     public function detail($stt)
     {
         $serial = DB::table('givenumbers')
