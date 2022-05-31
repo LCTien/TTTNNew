@@ -251,7 +251,7 @@ class GivenumberController extends Controller
             ->join('services','services.Code','=','service_id')
             ->join('equipments','equipments.Code','=','equipment_id')
             ->select('givenumbers.*','services.name as service_name','equipments.name as equipment_name')
-            ->where('givenumbers.created_at','>=',$start)
+            ->where('givenumbers.created_at','>=',$request->start)
             ->limit(6)
             ->get();
         }
@@ -320,12 +320,12 @@ class GivenumberController extends Controller
         {
             $equipment = DB::table('equipments')
             ->select([
-                DB::raw('Count(*) as tong'),
+                DB::raw('ip,Count(*) as tong'),
                 DB::raw('Code as code')
             ])
             ->join('givenumbers','givenumbers.equipment_id','=','equipments.Code')
             ->where('equipments.service_use','like','%'.$request->service.'%')
-            ->groupBy('Code','equipments.name')
+            ->groupBy('ip','Code','equipments.name')
             ->orderBy('tong')
             ->get();
         }
@@ -352,6 +352,8 @@ class GivenumberController extends Controller
         $insert =  DB::insert('insert into givenumbers (serial,name,phonenumber,email,service_id,equipment_id,limit_time,created_at,status)
          values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [$STT,$request->name,$request->phonenumber,$request->email,$service[0]->Code,$equipment[0]->code,$limit_time,$time,0]);
+        $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+        DB::insert('insert into diaries (username, time, ip, des) values (?, ?, ?, ?)', [$user[0]->username,$time,$equipment[0]->ip,"Cấp số ".$STT." cho ".$request->name." với dịch vụ ".$service[0]->name]);  
         $output = ' <div class="modal-give-content">
                     <span class="close">x</span>
                     <div class="modal-give-content-child1">
@@ -414,6 +416,64 @@ class GivenumberController extends Controller
         ->get();
         $quantity_page = ceil(count($allSTT) / 6);
         return view('report',['page' => $page,'maxPage' => $quantity_page,'isReport'=> true,'stt' => $stt]);
+    }
+    public function reportSearchTime(Request $request)
+    {
+        $output = '';
+        $start = '';
+        $end = '';
+        $search = [];
+        if($request->end == "dd/mm/yy")
+        {
+            $search = DB::table('givenumbers')
+            ->join('services','services.Code','=','service_id')
+            ->join('equipments','equipments.Code','=','equipment_id')
+            ->select('givenumbers.*','services.name as service_name','equipments.name as equipment_name')
+            ->where('givenumbers.created_at','>=',$request->start)
+            ->limit(6)
+            ->get();
+        }
+        else if ($request->end >= $request->start){
+            $tach = explode('/',$request->end);
+            $end .= $tach[2] ."-". $tach[1]."-".$tach[0];
+            $tach = explode('/',$request->start);
+            $start .= $tach[2] ."-".$tach[1] ."-". $tach[0];
+            $search = DB::table('givenumbers')
+            ->join('services','services.Code','=','service_id')
+            ->join('equipments','equipments.Code','=','equipment_id')
+            ->select('givenumbers.*','services.name as service_name','equipments.name as equipment_name')
+            ->where('givenumbers.created_at','>=',$start)
+            ->where('givenumbers.created_at','<=',$end)
+            ->limit(6)
+            ->get();
+        }
+        if(count($search)>0)
+        {
+            foreach($search as $item)
+            {
+                $output .= '
+            <tr>
+              <td>'.$item->serial.'</td>
+              <td>'.$item->service_name.'</td>
+              <td >'.$item->created_at.'</td>
+              ';if($item->status == -1)
+              $output .= '
+              <td ><i class="dot dot-fire"></i><p>Đã bỏ qua</p></td>
+              ';elseif ($item->status == 0) $output .='
+              <td ><i class="dot dot-water"></i><p>Đang chờ</p></td>
+              ';elseif ($item->status == 1) 
+              $output .= '
+              <td ><i class="dot dot-jungle"></i><p>Đã sử dụng</p></td>';
+              $output .= '
+              <td>'.$item->equipment_name.'</td>
+            </tr>';
+        }
+        }
+        else
+        {
+            $output .= '<p>Không tìm thấy số thứ tự trong khoảng thời gian này này</p>';
+        }
+        return response()->json($output);
     }
     public function download()
     {

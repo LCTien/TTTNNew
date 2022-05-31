@@ -49,7 +49,7 @@
         @if($page != 1)
         <a href="{{ route('rule.management',['page' => $page - 1]) }}"><i class="material-icons">keyboard_arrow_left</i></a>
         @endif
-        @if($page >= 3)
+        @if($page >= 4)
         ...
         @endif
         @for ($i = 1; $i <= $maxPage; $i++)
@@ -61,7 +61,7 @@
         @endif
        
         @endfor
-        @if($page < $maxPage - 1)
+        @if($page < $maxPage - 2)
         ...
         @endif
         @if($page != $maxPage)

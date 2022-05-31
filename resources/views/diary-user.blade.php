@@ -4,11 +4,11 @@
 <div class="main-title">Cài đặt hệ thống >   <span class="orange strong">  Nhật kí người dùng</span></div>
 <div class="container">
     <div class="dropdown-container-main">
-        <div class="dropdown-container margin-left15" style="width: 500px">
+        <div class="dropdown-container" style="width: 500px">
             <p>Chọn thời gian</p>
             <div class="dropdown-box-calendar">
                 <i class="far fa-calendar-alt"></i>
-                <p>26/04/2022</p>
+                <p id="time1"></p>
             </div>
             <div class="box-calendar">
                 <div class="bg-white w-100" id="caleandar" style="width:300px;height:260px"></div>
@@ -18,7 +18,7 @@
             </div>
             <div class="dropdown-box-calendar">
                 <i class="far fa-calendar-alt"></i>
-                <p>26/04/2022</p>
+                <p id="time2">dd/mm/yy</p>
             </div>
         </div>
         
@@ -34,7 +34,7 @@
         <div class="dropdown-container">
             <p>Từ khóa</p>
             <div class="dropdown-box">
-                <input type="text" placeholder="Nhập từ khóa" name="search">
+                <input type="text" placeholder="Nhập từ khóa" name="search" id="keyword">
                 <i class="fas fa-search"></i>
             </div>
         </div>
@@ -49,24 +49,61 @@
                    <th class="bd-radius-topright10">Thao tác thực hiện</th>
                </tr>
             </thead>
-            <tbody>
-               <tr>
-                 <td>congtien@abc</td>
-                 <td>05/05/2022 14:42</td>
-                 <td >192.168.1.1</td>
-                 <td>Thêm một template cuối cùng</td>
-               </tr>  
+            <tbody id ="listDiary">
+                @foreach ($items as $item)
+                <tr>
+                    <td>{{ $item->username }}</td>
+                    <td>{{ $item->time }}</td>
+                    <td >{{ $item->ip }}</td>
+                    <td>{{ $item->des }}</td>
+                  </tr>  
+                @endforeach
             </tbody>
         </table>
     </div>
-    <div class="page-control">
-        <a href=""><i class="material-icons">keyboard_arrow_left</i></a>
-        <a href="" class="page page-active">1</a>
-        <a href="" class="page">2</a>
-        <a href="" class="page">3</a> ...
-        <a href="" class="page">10</a>
-        <a href=""><i class="material-icons">keyboard_arrow_right</i></a>
+    @if ($maxPage > 1)
+    <div class="page-control" id="list-page">
+        @if($page != 1)
+        <a href="{{ route('diary-user',['page' => $page - 1]) }}"><i class="material-icons">keyboard_arrow_left</i></a>
+        @endif
+        @if($page >= 4)
+        ...
+        @endif
+        @for ($i = 1; $i <= $maxPage; $i++)
+
+        @if($i == $page)
+         <a href="{{ route('diary-user',['page' => $i]) }}" class="page page-active">{{ $i }}</a>
+        @elseif ($page - $i <= 2 && $i - $page <= 2)
+         <a href="{{ route('diary-user',['page' => $i]) }}" class="page">{{ $i }}</a>
+        @endif
+       
+        @endfor
+        @if($page < $maxPage - 2)
+        ...
+        @endif
+        @if($page != $maxPage)
+        <a href="{{ route('diary-user',['page' => $page + 1]) }}"><i class="material-icons">keyboard_arrow_right</i></a>
+        @endif
     </div>
+    @endif
 </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $(document).on('keyup','#keyword',function(){
+            var keyword = $(this).val();
+             $.ajax({
+                 type: "get",
+                 url: "/diary/search",
+                 data:{
+                     keyword: keyword,
+                 },
+                 dataType: "json",
+                 success: function(response){
+                    $("#listDiary").html(response);
+                 }
+             })
+        });
+    });
+</script>
 @endsection

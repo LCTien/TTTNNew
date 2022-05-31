@@ -314,7 +314,7 @@ $(document).ready(function(){
       $("#time2").text(date);
       flag = 0;
   }
-  let time1 = $("#time1").text();
+let time1 = $("#time1").text();
 let time2 = $("#time2").text();
 $.ajax({
   type: "get",
@@ -339,6 +339,31 @@ $.ajax({
   dataType: "json",
   success: function(response){
      $("#listNumber").html(response);
+  }
+})
+$.ajax({
+  type: "get",
+  url: "/manage/reportSearchTime",
+  data:{
+     start: time1,
+     end: time2,
+  },
+  dataType: "json",
+  success: function(response){
+     $("#listNumber2").html(response);
+  }
+})
+
+$.ajax({
+  type: "get",
+  url: "/diarySearchTime",
+  data:{
+     start: time1,
+     end: time2,
+  },
+  dataType: "json",
+  success: function(response){
+     $("#listDiary").html(response);
   }
 })
 })

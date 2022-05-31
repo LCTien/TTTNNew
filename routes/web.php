@@ -10,6 +10,7 @@ use App\Http\Controllers\GivenumberController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\DiaryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -102,6 +103,8 @@ Route::get('/giveNumber',[GivenumberController::class,'create']);
 
 Route::get('/report',[GivenumberController::class,'report'])->name('report');
 
+Route::get('/manage/reportSearchTime',[GivenumberController::class,'reportSearchTime']);
+
 Route::get('/download',[GivenumberController::class,'download'])->name('download');
 
 Route::get('/manage/rule',[RoleController::class,'index'])->name('rule.management');
@@ -127,6 +130,8 @@ Route::post('/updateAccount',[AccountController::class,'edit'])->name('update.ac
 
 Route::get('/account/search',[AccountController::class,'search']);
 //diary
-Route::get('/manage/diary',function(){
-    return view('diary-user',['isInstall'=> true,'isDiary' => true]);
-})->name('diary');
+Route::get('/manage/diary',[DiaryController::class,'index'])->name('diary');
+
+Route::get('/diarySearchTime',[DiaryController::class,'diarySearchTime']);
+
+Route::get('/diary/search',[DiaryController::class,'search']);

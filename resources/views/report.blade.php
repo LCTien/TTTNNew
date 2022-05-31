@@ -9,7 +9,7 @@
 </div>
 <div class="container">
     <div class="dropdown-container-main">
-        <div class="dropdown-container margin-left15" style="width: 500px">
+        <div class="dropdown-container" style="width: 500px">
             <p>Chọn thời gian</p>
             <div class="dropdown-box-calendar">
                 <i class="far fa-calendar-alt"></i>
@@ -46,7 +46,7 @@
                    <th class="bd-radius-topright10">Nguồn cấp</th>
                </tr>
             </thead>
-            <tbody>
+            <tbody id="listNumber2">
                 @foreach ($stt as $item)
                 <tr>
                     <td>{{ $item->serial }}</td>
@@ -68,25 +68,25 @@
     @if ($maxPage > 1)
     <div class="page-control" id="list-page">
         @if($page != 1)
-        <a href="{{ route('report',['page' => $page - 1]) }}"><i class="material-icons">keyboard_arrow_left</i></a>
+        <a href="{{ route('givenumber',['page' => $page - 1]) }}"><i class="material-icons">keyboard_arrow_left</i></a>
         @endif
-        @if($page >= 3)
+        @if($page >= 4)
         ...
         @endif
         @for ($i = 1; $i <= $maxPage; $i++)
 
         @if($i == $page)
-         <a href="{{ route('report',['page' => $i]) }}" class="page page-active">{{ $i }}</a>
+         <a href="{{ route('givenumber',['page' => $i]) }}" class="page page-active">{{ $i }}</a>
         @elseif ($page - $i <= 2 && $i - $page <= 2)
-         <a href="{{ route('report',['page' => $i]) }}" class="page">{{ $i }}</a>
+         <a href="{{ route('givenumber',['page' => $i]) }}" class="page">{{ $i }}</a>
         @endif
        
         @endfor
-        @if($page < $maxPage - 1)
+        @if($page < $maxPage - 2)
         ...
         @endif
         @if($page != $maxPage)
-        <a href="{{ route('report',['page' => $page + 1]) }}"><i class="material-icons">keyboard_arrow_right</i></a>
+        <a href="{{ route('givenumber',['page' => $page + 1]) }}"><i class="material-icons">keyboard_arrow_right</i></a>
         @endif
     </div>
     @endif
