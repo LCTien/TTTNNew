@@ -353,7 +353,14 @@ class GivenumberController extends Controller
          values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [$STT,$request->name,$request->phonenumber,$request->email,$service[0]->Code,$equipment[0]->code,$limit_time,$time,0]);
         $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
-        DB::insert('insert into diaries (username, time, ip, des) values (?, ?, ?, ?)', [$user[0]->username,$time,$equipment[0]->ip,"Cấp số ".$STT." cho ".$request->name." với dịch vụ ".$service[0]->name]);  
+        if(count($user) != 0)
+        {
+            DB::insert('insert into diaries (username, time, ip, des) values (?, ?, ?, ?)', [$user[0]->username,$time,$equipment[0]->ip,"Cấp số ".$STT." cho ".$request->name." với dịch vụ ".$service[0]->name]); 
+        }
+        else
+        {
+            DB::insert('insert into diaries (username, time, ip, des) values (?, ?, ?, ?)', [$request->name,$time,$equipment[0]->ip,$request->name." xin số ". $STT." với dịch vụ ".$service[0]->name]);  
+        }    
         $output = ' <div class="modal-give-content">
                     <span class="close">x</span>
                     <div class="modal-give-content-child1">

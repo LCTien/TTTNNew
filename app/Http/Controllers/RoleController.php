@@ -7,6 +7,8 @@ use App\Http\Requests\StoreroleRequest;
 use App\Http\Requests\UpdateroleRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 class RoleController extends Controller
 {
     /**
@@ -53,7 +55,10 @@ class RoleController extends Controller
        }
        else
        {
-           DB::update('update roles set name = ?, description = ? where id = ?', [$request->name,$request->description,$request->id]);
+           DB::update('update roles set name = ?, description = ?,powers = ?, updated_at = ? where id = ?', [$request->name,$request->description,$request->powers,Carbon::now("Asia/Ho_Chi_Minh"),$request->id]);
+           $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+           DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+         [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Cập nhật thông tin vai trò ".$request->name]);
            return redirect()->route('rule.management');
        }
     }
@@ -74,7 +79,11 @@ class RoleController extends Controller
         }
         else
         {
-            DB::insert('insert into roles (name, description) values (?, ?)', [$request->name,$request->description]);
+            DB::insert('insert into roles (name, description, powers,created_at) values (?, ?, ?)',
+             [$request->name,$request->description,$request->powers,Carbon::now("Asia/Ho_Chi_Minh")]);
+            $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+            DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+         [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Thêm vai trò ".$request->name]);
             return redirect()->route('rule.management');
         }
     }

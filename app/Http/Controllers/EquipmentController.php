@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateEquipmentRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
+
 class EquipmentController extends Controller
 {
     /**
@@ -90,6 +92,9 @@ class EquipmentController extends Controller
          values (?, ?, ?, ?, ?, ?, ?, ?)',
           [$request->code,$request->name,$request->ip_address,$request->service,$request->username,$request->password,$request->type
           ,Carbon::now('Asia/Ho_Chi_Minh')]);
+          $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+          DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+         [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Thêm thiết bị ".$request->name]);
         return redirect()->route('equipment',['isEquipment' => true]);
     }
 
@@ -144,6 +149,9 @@ class EquipmentController extends Controller
          where Code = ?', 
         [$request->code,$request->name,$request->ip_address,$request->service,$request->username,
         $request->password,$request->type,Carbon::now('Asia/Ho_Chi_Minh'),$request->oldCode]);
+        $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+        DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+       [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Cập nhật thông tin thiết bị ".$request->name]);
         return redirect()->route('equipment');
     }
 

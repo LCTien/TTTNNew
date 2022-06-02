@@ -140,6 +140,9 @@ class AccountController extends Controller
             return view('add-account',['isInstall'=> true,'isAccount' => true,'roles'=>$roles,'errPhonenumber' => $errPhonenumber]);
         }
         DB::insert('insert into accounts (fullname, username, phonenumber, email, role_id, password, status, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$request->fullname,$request->username,$request->phonenumber,$request->email,$request->rule,$request->password,$request->status,Carbon::now('Asia/Ho_Chi_Minh')]);
+        $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+        DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+        [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Thêm tài khoản ".$request->username]);
         return redirect()->route('account');
     }
     public function updating($id)
@@ -180,7 +183,11 @@ class AccountController extends Controller
             $errPhonenumber = true;
             return redirect()->route('account.update',['id' => $request->id,'errPhonenumber' => $errPhonenumber]);
         }
-        DB::update('update accounts set fullname = ?, username = ?, phonenumber = ?, email = ?, role_id = ?, password = ?, status = ?, updated_at = ? where id = ?', [$request->fullname,$request->username,$request->phonenumber,$request->email,$request->rule,$request->password,$request->status,Carbon::now('Asia/Ho_Chi_Minh'),$request->id]);
+        DB::update('update accounts set fullname = ?, username = ?, phonenumber = ?, email = ?, role_id = ?, password = ?, status = ?, updated_at = ? where id = ?', 
+        [$request->fullname,$request->username,$request->phonenumber,$request->email,$request->rule,$request->password,$request->status,Carbon::now('Asia/Ho_Chi_Minh'),$request->id]);
+        $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+        DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+        [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Cập nhật thông tin tài khoản ".$request->username]);
         return redirect()->route('account');
     }
     public function search(Request $request)
@@ -251,6 +258,9 @@ class AccountController extends Controller
                 $imgPath = $img->move('assets/img', $img->getClientOriginalName());
                 DB::update('update accounts set avatar = ? where id = ?', [$img->getClientOriginalName(),Session::get('UserId')]);
                 Session::put('Avatar',$img->getClientOriginalName());
+                $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+                DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+                [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Cập nhật hình ảnh đại diện"]);
                 return redirect()->route('admin.info',['id' => Session::get('UserId')]);
             }
     }

@@ -47,7 +47,7 @@
         </select>
     </div> 
         <div class="form-buttons">
-            <a class="denie-button" href="{{ route('equipment') }}">Hủy bỏ</a>
+            <a class="denie-button" href="{{ route('account') }}">Hủy bỏ</a>
             <button type="submit" class="continue-button">Thêm tài khoản</button>
         </div>
         <div class="form-control2">

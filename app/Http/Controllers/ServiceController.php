@@ -79,6 +79,9 @@ class ServiceController extends Controller
         }
         DB::insert('insert into services (Code, name, description, auto_incre, prefix, surfix, reset_everyday, created_at, status_active) 
         values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now(),1]);
+        $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+        DB::insert('insert into diaries (username, time, des) values (?, ?, ?)',
+         [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Thêm dịch vụ ".$name]);
         return redirect()->route('service');
     }
     public function search(Request $request)
@@ -91,12 +94,14 @@ class ServiceController extends Controller
             $search = DB::table('services')
         ->where('name','like','%'.$request->search.'%')
         ->where('status_active','=',1)
+        ->limit(6)
         ->get();
         }
         else if($request->status == "Ngưng hoạt động")
         {
             $search = DB::table('services')
         ->where('name','like','%'.$request->search.'%')
+        ->limit(6)
         ->where('status_active','=',-1)
         ->get();
         }
@@ -138,14 +143,14 @@ class ServiceController extends Controller
         $search = [];
         if($request->end == "dd/mm/yy")
         {
-            $search = DB::select('select * from services where created_at >= ?', [$request->start]);
+            $search = DB::select('select * from services where created_at >= ? limit 6', [$request->start]);
         }
         else if ($request->end >= $request->start){
             $tach = explode('/',$request->end);
             $end .= $tach[2] ."-". $tach[1]."-".$tach[0];
             $tach = explode('/',$request->start);
             $start .= $tach[2] ."-".$tach[1] ."-". $tach[0];
-            $search = DB::select('select * from services where created_at >= ? and created_at <= ?', [ $start,$end]);
+            $search = DB::select('select * from services where created_at >= ? and created_at <= ? limit 6', [ $start,$end]);
         }
         if(count($search)>0)
         {
@@ -223,7 +228,10 @@ class ServiceController extends Controller
         }
         DB::update('update services set Code = ?, name = ?, description = ?, auto_incre = ?,
          prefix = ?, surfix = ?, reset_everyday = ?, updated_at = ? where Code = ?',
-          [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now(),$request->oldCode]);
+          [$code , $name, $description ,$auto, $prefix, $surfix, $reset, Carbon::now("Asia/Ho_Chi_Minh"),$request->oldCode]);
+          $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
+        DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
+         [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Cập nhật thông tin dịch vụ ".$name]);
         return redirect()->route('service');
     }
     /**

@@ -25,14 +25,45 @@
                 <i class="far fa-calendar-alt"></i>
                 <p id="time2">dd/mm/yy</p>
             </div>
-        </div>
-        
     </div>
+   </div>
     <script> 
     $(document).ready(function(){
         $(".dropdown-box-calendar").click(function(){
             $(".box-calendar").toggleClass("block");
         });
+        let flag = 1;
+  $("#time1").text($(".cld-days .today").text() + "/" + $(".cld-datetime .today").text());
+  $(".cld-number").click(function(){
+    console.log($(this).text());
+  let date = $(this).text() + "/" + $(".cld-datetime .today").text();
+  $(".cld-days li").removeClass("today");
+  $(this).addClass("today");
+  if(flag == 0)
+  {
+      $("#time1").text(date);
+      flag = 1;
+  }
+  else {
+      $("#time2").text(date);
+      flag = 0;
+  }
+let time1 = $("#time1").text();
+let time2 = $("#time2").text();
+
+$.ajax({
+  type: "get",
+  url: "/givenumber/searchTime",
+  data:{
+     start: time1,
+     end: time2,
+  },
+  dataType: "json",
+  success: function(response){
+     $("#listNumber").html(response);
+  }
+})
+})
     });
     </script>
     <div class="table">
@@ -68,7 +99,7 @@
     @if ($maxPage > 1)
     <div class="page-control" id="list-page">
         @if($page != 1)
-        <a href="{{ route('givenumber',['page' => $page - 1]) }}"><i class="material-icons">keyboard_arrow_left</i></a>
+        <a href="{{ route('report',['page' => $page - 1]) }}"><i class="material-icons">keyboard_arrow_left</i></a>
         @endif
         @if($page >= 4)
         ...
@@ -76,9 +107,9 @@
         @for ($i = 1; $i <= $maxPage; $i++)
 
         @if($i == $page)
-         <a href="{{ route('givenumber',['page' => $i]) }}" class="page page-active">{{ $i }}</a>
+         <a href="{{ route('report',['page' => $i]) }}" class="page page-active">{{ $i }}</a>
         @elseif ($page - $i <= 2 && $i - $page <= 2)
-         <a href="{{ route('givenumber',['page' => $i]) }}" class="page">{{ $i }}</a>
+         <a href="{{ route('report',['page' => $i]) }}" class="page">{{ $i }}</a>
         @endif
        
         @endfor
@@ -86,7 +117,7 @@
         ...
         @endif
         @if($page != $maxPage)
-        <a href="{{ route('givenumber',['page' => $page + 1]) }}"><i class="material-icons">keyboard_arrow_right</i></a>
+        <a href="{{ route('report',['page' => $page + 1]) }}"><i class="material-icons">keyboard_arrow_right</i></a>
         @endif
     </div>
     @endif

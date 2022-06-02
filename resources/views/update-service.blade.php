@@ -49,7 +49,7 @@
             </div>
         </div>
             <div class="form-buttons">
-                <a class="denie-button" href="{{ route('equipment') }}">Hủy bỏ</a>
+                <a class="denie-button" href="{{ route('service') }}">Hủy bỏ</a>
                 <button type="submit" class="continue-button">Cập nhật</button>
             </div>
         </form>

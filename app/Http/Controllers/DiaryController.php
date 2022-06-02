@@ -20,6 +20,7 @@ class DiaryController extends Controller
         }
             $diary = DB::table('diaries')
             ->limit(6)
+            ->offset($itemSet)
             ->get();
         $quantity_page = ceil(count($all) / 6);
         return view('diary-user',['items' => $diary,'page' => $page,'maxPage' => $quantity_page,'isInstall'=> true,'isDiary' => true]);
