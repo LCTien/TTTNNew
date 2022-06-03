@@ -8,35 +8,60 @@
        <div class="icon-fluid water bg-water"><i class="far fa-calendar"></i></div>
        <p class="tiny-chart-title">Số thứ tự đã cấp</p>
        <p class="tiny-chart-content">{{ $data["serial"] }}</p>
+       @if($data["serial_used_percent_status"])
        <div class="tiny-chart-growth">
         <i class="fas fa-arrow-up"></i>
-        <p> 32,45%</p>
+        <p> {{$data["serial_today"] }}%</p>
        </div>
+       @endif
    </div>
    <div class="tiny-chart">
     <div class="icon-fluid jungle bg-jungle"><i class="far fa-calendar-check"></i></div>
     <p class="tiny-chart-title">Số thứ tự đã sử dụng</p>
     <p class="tiny-chart-content">{{ $data["serial_used"] }}</p>
-    <div class="tiny-chart-growth fire bg-fire">
-        <i class="fas fa-arrow-down"></i>
-        <p> 32,45%</p>
+    @if($data["serial_used_percent_status"])
+    <div class="tiny-chart-growth">
+     <i class="fas fa-arrow-up"></i>
+     <p> {{$data["serial_used_percent"] }}%</p>
     </div>
+    @else
+    <div class="tiny-chart-growth fire bg-fire">
+     <i class="fas fa-arrow-down"></i>
+     <p> {{$data["serial_used_percent"] }}%</p>
+    </div>
+    @endif
 </div>
 <div class="tiny-chart">
     <div class="icon-fluid orange bg-orange"><i class="material-icons">&#xe637;</i></div>
     <p class="tiny-chart-title">Số thứ tự đang chờ</p>
     <p class="tiny-chart-content">{{ $data["serial_waiting"] }}</p>
+    @if($data["serial_waiting_percent_status"])
     <div class="tiny-chart-growth">
-        <i class="fas fa-arrow-up"></i> <p> 32,45%</p>
+     <i class="fas fa-arrow-up"></i>
+     <p> {{$data["serial_waiting_percent"] }}%</p>
     </div>
+    @else
+    <div class="tiny-chart-growth fire bg-fire">
+     <i class="fas fa-arrow-down"></i>
+     <p> {{$data["serial_waiting_percent"] }}%</p>
+    </div>
+    @endif
 </div>
 <div class="tiny-chart">
     <div class="icon-fluid fire bg-fire"><i class="far fa-bookmark"></i></div>
     <p class="tiny-chart-title">Số thứ tự đã bỏ qua</p>
     <p class="tiny-chart-content">{{ $data["serial_passed"] }}</p>
-    <div class="tiny-chart-growth fire bg-fire">
-        <i class="fas fa-arrow-down"></i> <p> 32,45%</p>
+    @if($data["serial_passed_percent_status"])
+    <div class="tiny-chart-growth">
+     <i class="fas fa-arrow-up"></i>
+     <p> {{$data["serial_passed_percent"] }}%</p>
     </div>
+    @else
+    <div class="tiny-chart-growth fire bg-fire">
+     <i class="fas fa-arrow-down"></i>
+     <p> {{$data["serial_passed_percent"] }}%</p>
+    </div>
+    @endif
 </div>
    <div class="big-chart">
        <p class="big-chart-title">Bảng thống kê theo  <span class="margin-left10" id="times_title">ngày</span></p>

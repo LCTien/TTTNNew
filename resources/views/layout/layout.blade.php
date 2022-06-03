@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/js/caleandar.js"></script>
     <title>Alta Media</title>
 </head>
 <body>
@@ -26,6 +27,5 @@
     @stack('chart')
 </body>
 <script src="/js/tag-box.js"></script>
-<script type="text/javascript" src="/js/caleandar.js"></script>
 <script type="text/javascript" src="/js/demo.js"></script>
 </html>

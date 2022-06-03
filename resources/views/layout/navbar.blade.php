@@ -18,19 +18,22 @@
     <a href="{{ route('logout') }}" class="logout"> <i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
     @endif
 </nav>
-
+<?php
+    $givenumber = DB::table('givenumbers')->get();
+?>
     @if (!empty(Session::get('UserId')))
     <a  class="anoun-bell" href="#"><i class="fas fa-bell"></i>
         <div class="dropbox ">
             <div class="dropbox content">Thông báo</div>
-            <div class="dropbox item">   
+            <div class="dropbox item">
+                @foreach($givenumber as $item)   
                 <div class=" dropbox item items"> 
-                    <p>Người dùng: Lê Công Tiến</p>
-                    <span>Thời gian nhận số: 12h20 ngày 30/11/2022</span>
+                    <p>Người dùng: {{ $item->name }}</p>
+                    <span>Thời gian nhận số: {{ explode(' ',$item->created_at)[1] }} ngày {{ explode(' ',$item->created_at)[0] }}</span>
                     <hr/>
                 </div>
+                @endforeach
             </div>
-            
     </div></a>
     <img class ="img-profile" src="/assets/img/{{ Session::get('Avatar') }}" alt="avatar">
     <div class="title-2">
