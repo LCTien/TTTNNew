@@ -313,6 +313,7 @@ class GivenumberController extends Controller
     }
     public function create(Request $request)
     {
+        $output = '';
         $equipment = DB::select('select equipments.Code as code from equipments
          where equipments.service_use like "%'.$request->service.'%" 
          and not EXISTS (select equipment_id from givenumbers WHERE equipments.Code = givenumbers.equipment_id )');
@@ -346,6 +347,18 @@ class GivenumberController extends Controller
         if($service[0]->surfix != "")
         {
             $STT .= $service[0]->surfix;
+        }
+        if(count($equipment)==0)
+        {
+            $output .= ' <div class="modal-give-content">
+            <span class="close">x</span>
+            <div class="modal-give-content-child1">
+    
+                <p style="position: relative;">Không có thiết bị dành cho dịch vụ này!</p><br>
+                <p style="position: relative;">Xin thứ lỗi!</p>
+            </div>
+            </div>';
+            return response()->json($output);
         }
         $time = Carbon::now('Asia/Ho_Chi_Minh');
         $limit_time =Carbon::now('Asia/Ho_Chi_Minh')->addHours(5);

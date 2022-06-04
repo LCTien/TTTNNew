@@ -8,6 +8,7 @@
     <form action="{{ route('update.service') }}" class="form-group" method="POST">
         @csrf
         <input type="hidden" name="oldCode" value="{{ $item[0]->Code }}">
+        <input type="hidden" name="oldName" value="{{ $item[0]->name }}">
         <div class="form-control2">
             <label for="code">Mã dịch vụ: <span class="fire">*</span></label>
             <input type="text" name="code" placeholder="Nhập mã dịch vụ" value="{{ $item[0]->Code }}">

@@ -205,6 +205,26 @@ class ServiceController extends Controller
     {
         $code = $request->code;
         $name = $request->name;
+        $eq = DB::table('equipments')
+        ->where('service_use','like','%' . $request->oldName . '%')
+        ->get();
+        if(count($eq) > 0)
+        {
+            $service = "";
+            foreach($eq as $item){
+               $arr = explode(', ', $item->service_use);
+               for($i = 0; $i < count($arr); $i++){
+                   if($arr[$i] == $request->oldName)
+                        $arr[$i] = $name;
+                    if($service == "")
+                        $service .= $arr[$i];
+                    else 
+                        $service .= ", " . $arr[$i];
+
+               }
+               DB::update('update equipments set service_use  = ? where Code = ?', [$service,$item->Code]);
+            }
+        }
         $description = $request->description;
         $auto = "";
         $prefix = "";
