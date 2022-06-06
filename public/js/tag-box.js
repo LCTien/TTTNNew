@@ -41,22 +41,6 @@ $("*").click(function(){
 function addTag(e)
 {
     $("#listService").addClass("block");
-    if(e.key == "Enter")
-    {
-        let tag = e.target.value.replace(/\s+/g,' ');
-        if(tag.length > 1 && !tags.includes(tag)){
-            tag.split(',').forEach(tag =>{
-                tags.push(tag);
-                createTag();
-            if(service.value == "")
-                service.value += `${tag}`;
-            else
-                service.value += `, ${tag}`;
-            });
-
-        }
-        e.target.value= "";
-    }
     $.ajax({
         type: "get",
         url: "/listService",
@@ -82,4 +66,17 @@ function addTag2(key)
     }
 }
 input.addEventListener("keyup",addTag);
-
+input.addEventListener("click",function () { 
+    $.ajax({
+        type: "get",
+        url: "/listService",
+        data:{
+            service: '',
+        },
+        dataType: "json",
+        success: function(response){
+           $("#listService").html(response);
+           $("#listService").addClass("block");
+        }
+    })
+ });

@@ -42,7 +42,7 @@ class ServiceController extends Controller
             }
         }
         else{
-            $output .= '<span style="color: red"> Không có dịch vụ này</span>';
+            $output .= '<span style="color: red; background-color:white;height:50px;width:100%"> Không có dịch vụ này</span>';
         }
         
         return response()->json($output);
