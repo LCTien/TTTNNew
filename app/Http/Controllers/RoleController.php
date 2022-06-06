@@ -79,11 +79,11 @@ class RoleController extends Controller
         }
         else
         {
-            DB::insert('insert into roles (name, description, powers,created_at) values (?, ?, ?)',
+            DB::insert('insert into roles (name, description, powers,created_at) values (?, ?, ?, ?)',
              [$request->name,$request->description,$request->powers,Carbon::now("Asia/Ho_Chi_Minh")]);
             $user = DB::table('accounts')->where('id','=',Session::get('UserId'))->get();
             DB::insert('insert into diaries (username, time,  des) values (?, ?, ?)',
-         [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Thêm vai trò ".$request->name]);
+            [$user[0]->username, Carbon::now("Asia/Ho_Chi_Minh"),"Thêm vai trò ".$request->name]);
             return redirect()->route('rule.management');
         }
     }

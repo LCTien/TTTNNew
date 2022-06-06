@@ -64,7 +64,7 @@
     @endif
 </div>
    <div class="big-chart">
-       <p class="big-chart-title">Bảng thống kê theo  <span class="margin-left10" id="times_title">ngày</span></p>
+       <p class="big-chart-title" id="chart-title">Bảng thống kê theo ngày</p>
        <p class="big-chart-date">Tháng 4/2022</p>
        <div class="big-chart-box">
         <p class="big-chart-content">Xem theo</p>
@@ -81,6 +81,18 @@
         getData("Ngày");
        function getData(times)
        {
+           if(times == "Ngày")
+           {
+               $('#chart-title').text('Bảng thống kê theo ngày');
+           }
+           else if(times == "Tháng")
+           {
+                $('#chart-title').text('Bảng thống kê theo tháng');
+           }
+           else if(times == "Năm")
+           {
+                $('#chart-title').text('Bảng thống kê theo năm');
+           }
         document.getElementById("chart").innerHTML = "";
         let data = [];   
         let cate = [];

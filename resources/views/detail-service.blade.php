@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @extends('layout.navbar')
 @section('content')
-<div class="main-title">Dịch vụ > Danh sách dịch vụ  ><span class="orange strong"> Cập nhật dịch vụ </span></div>
+<div class="main-title"> <p>Dịch vụ > Danh sách dịch vụ  > <span class="orange strong"> Chi tiết dịch vụ </span></p> </div>
 <p class="component-title strong">Quản lý dịch vụ</p>
 <div class="container">
   <div class="container-component-1"> 
@@ -83,7 +83,7 @@ $(document).ready(function(){
     });
 });
 </script>
-<div class="dropdown-container-search">
+<div class="dropdown-container-search" style="width: 150px;float:left;">
     <div class="dropdown-container">
         <p>Từ khóa</p>
         <div class="dropdown-box">

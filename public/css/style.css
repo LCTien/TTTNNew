@@ -133,7 +133,7 @@ order: 0;
 flex-grow: 0;
 margin: 0px 8px;
 }
-.form-control{ 
+.form-control{
     flex-direction: row;
     align-items: center;
     position: static;
@@ -155,6 +155,9 @@ margin: 0px 8px;
     order: 1;
     flex-grow: 0;
     margin: 4px 0px;
+}
+input{
+    padding: 8.5px 12px;
 }
 .form-group{
     position: absolute;

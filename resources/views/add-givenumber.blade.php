@@ -99,7 +99,6 @@
         $('.modal-form').css("display","flex");
     });
     $('#accept').click(function(){
-        $('.modal-give').css("display","flex");
         let service = document.getElementById('service').value;
         let name = document.getElementById('name').value;
         let phonenumber = document.getElementById('phonenumber').value;
@@ -119,7 +118,7 @@
                  },
                  dataType: "json",
                  success: function(response){
-                    
+                    $('.modal-give').css("display","flex");
                     $(".modal-give").html(response);
                     $('.close').click(function(){
                     $('.modal-give').css("display","none");
