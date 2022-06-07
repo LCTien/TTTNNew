@@ -136,7 +136,7 @@
             let search = document.getElementById('keyword').value;
             $.ajax({
                  type: "get",
-                 url: "/service/search",
+                 url: "/admin/service/search",
                  data:{
                     search: search,
                     status: status,
@@ -161,7 +161,7 @@
             let search = document.getElementById('keyword').value;
             $.ajax({
                  type: "get",
-                 url: "/service/search",
+                 url: "/admin/service/search",
                  data:{
                     search: search,
                     status: status,
@@ -192,7 +192,7 @@ let time1 = $("#time1").text();
 let time2 = $("#time2").text();
 $.ajax({
   type: "get",
-  url: "/service/searchTime",
+  url: "/admin/service/searchTime",
   data:{
      start: time1,
      end: time2,

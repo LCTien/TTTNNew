@@ -23,9 +23,12 @@ use App\Http\Controllers\DiaryController;
 */
 Route::get('note', [NotesController::class,'index']);
 Route::get('pdf', [NotesController::class,'pdf']);
+
+Route::get('/getnumber',[GivenumberController::class,'userGetNumber']);
+
 Route::get('/',function() {
     return view('login');
-})->name('login');
+})->name('login')->middleware('CheckLogin');
 
 Route::get('/logout',[AccountController::class,'logout'])->name('logout');
 
@@ -38,6 +41,9 @@ Route::get('/forgetpassword',function() {
 Route::post('/forgetpassword-confirm',[AccountController::class,'forgetpassword'])->name('forgetpassword.confirm');
 
 Route::post('welcome',[AccountController::class,'login'])->name('welcome');
+
+Route::prefix('admin')->middleware('IsLogin')->group(function () {
+    
 
 Route::get('/admin-info/{id}', [AccountController::class,'index'])->name('admin.info');
 
@@ -86,8 +92,6 @@ Route::post('/updateService', [ServiceController::class,'update'])->name('update
 
 Route::get('/givenumber',[GivenumberController::class,'index'])->name('givenumber');
 
-Route::get('/getnumber',[GivenumberController::class,'userGetNumber']);
-
 Route::get('/givenumber/search',[GivenumberController::class,'search']);
 
 Route::get('/givenumber/searchTime',[GivenumberController::class,'searchTime']);
@@ -108,6 +112,8 @@ Route::get('/manage/reportSearchTime',[GivenumberController::class,'reportSearch
 Route::get('/download',[GivenumberController::class,'download'])->name('download');
 
 Route::get('/manage/rule',[RoleController::class,'index'])->name('rule.management');
+
+Route::get('/manage/rule/search',[RoleController::class,'search']);
 
 Route::get('/manage/rule/add',[RoleController::class,'creating'])->name('rule.add');
 
@@ -135,3 +141,5 @@ Route::get('/manage/diary',[DiaryController::class,'index'])->name('diary');
 Route::get('/diarySearchTime',[DiaryController::class,'diarySearchTime']);
 
 Route::get('/diary/search',[DiaryController::class,'search']);
+
+});

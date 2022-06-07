@@ -32,7 +32,7 @@
                    <th class="bd-radius-topright10">&emsp;</th>
                </tr>
             </thead>
-            <tbody>
+            <tbody id="listRole">
               @foreach ($listRoles as $items)
                <tr>
                  <td>{{ $items->name }}</td>
@@ -72,38 +72,18 @@
 </div>
 </div>
 <script>
-     let flag = 1;
-  $("#time1").text($(".cld-days .today").text() + "/" + $(".cld-datetime .today").text());
-  $(".cld-number").click(function(){
-    console.log($(this).text());
-  let date = $(this).text() + "/" + $(".cld-datetime .today").text();
-  $(".cld-days li").removeClass("today");
-  $(this).addClass("today");
-  if(flag == 0)
-  {
-      $("#time1").text(date);
-      flag = 1;
-  }
-  else {
-      $("#time2").text(date);
-      flag = 0;
-  }
-let time1 = $("#time1").text();
-let time2 = $("#time2").text();
-
-
-$.ajax({
-  type: "get",
-  url: "/diarySearchTime",
-  data:{
-     start: time1,
-     end: time2,
-  },
-  dataType: "json",
-  success: function(response){
-     $("#listDiary").html(response);
-  }
-})
-})
+      $(document).ready(function(){
+        $(document).on('keyup','#keyword',function(){
+            var keyword = $(this).val();
+             $.ajax({
+                 type: "get",
+                 url: `/admin/manage/rule/search?keyword=${keyword}`,
+                 dataType: "json",
+                 success: function(response){
+                    $("#listRole").html(response);
+                 }
+             })
+        });
+    });
 </script>
 @endsection

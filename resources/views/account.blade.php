@@ -136,7 +136,7 @@
             let role =  $("#dropAction p").text();
              $.ajax({
                  type: "get",
-                 url: "/account/search",
+                 url: "/admin/account/search",
                  data:{
                     keyword: keyword,
                      role: role

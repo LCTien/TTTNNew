@@ -89,49 +89,29 @@ class RoleController extends Controller
     }
     public function search(Request $request){
         $output ='';
-        if($request->action == "0" && $request->connect == "0"){
-            $eq = DB::table('equipments')->where('name','LIKE','%'.$request->keyword.'%')->get();
-        }
-        else if($request->action == "0")
-            $eq = DB::table('equipments')->where('name','LIKE','%'.$request->keyword.'%')->where('status_connect','=',$request->connect)->get();
-        else if($request->connect == "0")
-            $eq = DB::table('equipments')->where('name','LIKE','%'.$request->keyword.'%')->where('status_active','=',$request->action)->get();
-        else 
-            $eq = DB::table('equipments')
-            ->where('name','LIKE','%'.$request->keyword.'%')
-            ->where('status_active','=',$request->action)
-            ->where('status_connect','=',$request->connect)->get(); 
-        if(count($eq)>0){foreach($eq as $items)
+        $rule = DB::table('roles')
+        ->where('name','like','%'.$request->keyword.'%')
+        ->limit(6)
+        ->get();
+        dd($rule,$request->keyword);
+        if(count($rule)>0)
+        {
+            foreach($rule as $items)
             {
                 
-                $output .= '<tr>
-                <td>'.$items->Code .'</td>
-                <td>'.$items->name .'</td>
-                <td>'.$items->IP .'</td>';
-                if ($items->status_active == 1)
-                {
-                    $output .='<td ><i class="dot dot-jungle"></i><p>Hoạt động</p></td>';
-                }
-                
-                else
-                $output .='<td ><i class="dot dot-fire"></i><p>Ngưng hoạt động</p></td>';
-                if ($items->status_connect == 1){
-                    $output .=   '<td><i class="dot dot-jungle"></i><p>Kết nối</p></td>';
-                }
-                else
-                $output .='<td><i class="dot dot-fire"></i><p>Mất kết nối</p></td>';
-                $output .='<td id="see-more"><p class="overflow">'.$items->service_use .'</p>
-                            <div class="see-more"><p>'.$items->service_use .'</p></div>
-                        </td>
-                            <td><a href="'. route('equipment.detail',['id' => $items->Code]) .'">Chi tiết</a></td>
-                            <td><a href="'. route('equipment.update',['id' => $items->Code]) .'">Cập nhật</a></td>
-                        </tr>';
-                
-            }}
-            else
-        {
-            $output .= '<p>Không có thiết bị này</p>';
+                $output .= ' <tr>
+                <td>'.$items->name.'</td>
+                <td>'. $items->tong .'</td>
+                <td>'. $items->description .'</td>
+                <td><a href="'.route('rule.update',['id' => $items->id]).'">Cập nhật</a></td>
+              </tr>';
+            }
+            return response()->json($output);
         }
-        return response()->json($output);
+        else
+        {
+            $output = '<p>Không có vai trò này</p>';
+        }
+       
     }
 }

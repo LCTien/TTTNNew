@@ -98,13 +98,13 @@
         let cate = [];
         $.ajax({
                  type: "get",
-                 url: "/getData",
+                 url: "/admin/getData",
                  data:{
                      time: times,
                  },
                  dataType: "json",
                  success: function(response){
-                    url = `http://127.0.0.1:8000/getData?time=${times}`;
+                    url = `http://127.0.0.1:8000/admin/getData?time=${times}`;
                     let data = [];   
                     let cate = [];
                     fetch(url).then(function (response) { 

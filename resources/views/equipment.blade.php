@@ -130,7 +130,7 @@
             let connect = document.getElementById('connectInput').value;
              $.ajax({
                  type: "get",
-                 url: "/equipment/search",
+                 url: "/admin/equipment/search",
                  data:{
                      keyword: keyword,
                      action: action,
@@ -185,7 +185,7 @@
             var keyword = $("#keyword").val();
              $.ajax({
                  type: "get",
-                 url: "/equipment/search",
+                 url: "/admin/equipment/search",
                  data:{
                      keyword: keyword,
                      action: action.value,
@@ -233,7 +233,7 @@
             var keyword = $("#keyword").val();
              $.ajax({
                  type: "get",
-                 url: "/equipment/search",
+                 url: "/admin/equipment/search",
                  data:{
                      keyword: keyword,
                      action: actionEQ,

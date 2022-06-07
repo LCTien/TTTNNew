@@ -53,7 +53,7 @@ let time2 = $("#time2").text();
 
 $.ajax({
   type: "get",
-  url: "/givenumber/searchTime",
+  url: "/admin/givenumber/searchTime",
   data:{
      start: time1,
      end: time2,

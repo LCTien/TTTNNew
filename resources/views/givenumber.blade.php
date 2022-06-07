@@ -177,7 +177,7 @@
             console.log(service_name);
              $.ajax({
                  type: "get",
-                 url: "/givenumber/search",
+                 url: "/admin/givenumber/search",
                  data:{
                      search: keyword,
                      service_name: service_name,
@@ -214,7 +214,7 @@
             console.log(service_name);
              $.ajax({
                  type: "get",
-                 url: "/givenumber/search",
+                 url: "/admin/givenumber/search",
                  data:{
                      search: keyword,
                      service_name: service_name,
@@ -251,7 +251,7 @@
             console.log(service_name);
              $.ajax({
                  type: "get",
-                 url: "/givenumber/search",
+                 url: "/admin/givenumber/search",
                  data:{
                      search: keyword,
                      service_name: service_name,
@@ -275,7 +275,7 @@
             let equipment_name = $("#dropSource p").text();
              $.ajax({
                  type: "get",
-                 url: "/givenumber/search",
+                 url: "/admin/givenumber/search",
                  data:{
                      search: keyword,
                      service_name: service_name,
@@ -309,7 +309,7 @@ let time2 = $("#time2").text();
 
 $.ajax({
   type: "get",
-  url: "/givenumber/searchTime",
+  url: "/admin/givenumber/searchTime",
   data:{
      start: time1,
      end: time2,

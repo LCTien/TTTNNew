@@ -109,7 +109,7 @@
         console.log(email);
         $.ajax({
                  type: "get",
-                 url: "/giveNumber",
+                 url: "/admin/giveNumber",
                  data:{
                      service: service,
                      name: name,
